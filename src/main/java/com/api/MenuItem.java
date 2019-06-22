@@ -1,16 +1,20 @@
 package com.api;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "MENU_ITEMS")
 @Getter
 @Setter
+@EqualsAndHashCode
 public class MenuItem implements Serializable {
 
     private static final long serialVersionUID = 6734246237864L;
@@ -29,5 +33,8 @@ public class MenuItem implements Serializable {
 
     @Column(name = "PRICE")
     private BigDecimal price;
+
+    @ManyToMany(mappedBy = "menuItems")
+    private List<Order> orders = new ArrayList<>();
 
 }
