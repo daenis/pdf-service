@@ -1,4 +1,4 @@
-package com.api;
+package com;
 
 import static org.junit.Assert.assertTrue;
 
