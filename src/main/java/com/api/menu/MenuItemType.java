@@ -1,4 +1,4 @@
-package com.api;
+package com.api.menu;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -25,8 +25,7 @@ public class MenuItemType implements Serializable {
     @Column(name = "NAME")
     private String name;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuItemType", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuItemType", orphanRemoval = true, fetch = FetchType.LAZY)
     private List<MenuItem> menuItems = new ArrayList<>();
 
 }

@@ -1,5 +1,6 @@
-package com.api;
+package com.api.menu;
 
+import com.api.order.Order;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;

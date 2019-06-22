@@ -1,5 +1,6 @@
-package com.api;
+package com.api.order;
 
+import com.api.menu.MenuItem;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,10 @@ public class Order implements Serializable {
 
     @Column(name = "ORDER_TIME")
     private LocalDateTime orderTime;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ORDER_STATUS_ID")
+    private OrderStatus orderStatus;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "MENU_ITEM_ORDER",
