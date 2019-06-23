@@ -15,7 +15,7 @@ public class OrderPlacementController {
     }
 
     @PostMapping("/order-service/v1/orders")
-    public ResponseEntity<OrderDTO> createOrderFromOrderTicket(@RequestBody OrderTicket orderTicket) {
+    public ResponseEntity<OrderDTO> placeOrderFromOrderTicket(@RequestBody OrderTicket orderTicket) {
         OrderDTO order = orderPlacementService.placeOrderFromOrderTicket(orderTicket);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }

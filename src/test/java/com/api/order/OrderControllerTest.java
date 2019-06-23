@@ -39,9 +39,9 @@ class OrderControllerTest {
 
         when(orderService.findPlacedOrders()).thenReturn(orderDTOs);
 
-        ResponseEntity<List<OrderDTO>> returnedResponse = orderController.findPlacedOrders();
+        ResponseEntity<List<OrderDTO>> actualResponse = orderController.findPlacedOrders();
 
-        assertEquals(predictedResponse, returnedResponse, "The expected response was not returned.");
+        assertEquals(predictedResponse, actualResponse, "The expected response was not returned.");
     }
 
 }

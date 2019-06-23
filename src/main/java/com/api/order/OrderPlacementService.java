@@ -25,17 +25,17 @@ public class OrderPlacementService {
     OrderDTO placeOrderFromOrderTicket(OrderTicket orderTicket) {
         Order order = orderTicketMapper.createOrderForOrderTicket(orderTicket);
         order.setOrderStatus(findOrderStatusByName(Status.PLACED.getName()));
-        return orderService.createOrder(order);
+        return orderService.saveOrder(order);
     }
 
     OrderDTO completeOrderByOrderId(Integer orderId) {
-        Order order = orderService.findOrderByOrderId(orderId);
+        Order order = orderService.findByOrderId(orderId);
         order.setOrderStatus(findOrderStatusByName(Status.COMPLETED.getName()));
         return orderService.saveOrder(order);
     }
 
     OrderDTO cancelOrderByOrderId(Integer orderId) {
-        Order order = orderService.findOrderByOrderId(orderId);
+        Order order = orderService.findByOrderId(orderId);
         order.setOrderStatus(findOrderStatusByName(Status.CANCELED.getName()));
         return orderService.saveOrder(order);
     }

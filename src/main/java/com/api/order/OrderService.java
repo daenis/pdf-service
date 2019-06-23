@@ -17,10 +17,6 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    OrderDTO createOrder(Order order) {
-        return orderMapper.getOrderDTOForOrder(orderRepository.save(order));
-    }
-
     OrderDTO saveOrder(Order order) {
         return orderMapper.getOrderDTOForOrder(orderRepository.save(order));
     }
@@ -32,7 +28,7 @@ public class OrderService {
                               .collect(Collectors.toList());
     }
 
-    Order findOrderByOrderId(Integer orderId) {
+    Order findByOrderId(Integer orderId) {
         return orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order does not exist."));
     }
 
