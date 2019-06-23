@@ -1,12 +1,16 @@
 package com.api.order;
 
 import com.api.menu.MenuItem;
+import com.api.order.item.OrderItem;
+import com.api.order.status.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,32 +25,37 @@ public class Order implements Serializable {
     private static final long serialVersionUID = 89342473892L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "ORDER_ID")
     private Integer orderId;
 
     @Column(name = "ORDER_TIME")
     private LocalDateTime orderTime;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "ORDER_STATUS_ID")
     private OrderStatus orderStatus;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "MENU_ITEM_ORDER",
-        joinColumns = @JoinColumn(name = "MENU_ITEM_ID"),
-        inverseJoinColumns = @JoinColumn(name = "ORDER_ID")
-    )
-    private List<MenuItem> menuItems = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
-    private void addMenuItem(MenuItem menuItem) {
-        menuItems.add(menuItem);
-        menuItem.getOrders().add(this);
+    @Transient
+    @JsonProperty("totalPrice")
+    private BigDecimal totalPrice() {
+        return orderItems
+                .stream()
+                .map(item -> item.getMenuItem().getPrice())
+                .reduce(new BigDecimal(0), BigDecimal::add);
     }
 
-    private void removeMenuItem(MenuItem menuItem) {
-        menuItems.remove(menuItem);
-        menuItem.getOrders().remove(this);
+    public void addOrderItem(OrderItem orderItem) {
+        orderItems.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public void removeOrderItem(OrderItem orderItem) {
+        orderItems.remove(orderItem);
+        orderItem.setOrder(null);
     }
 
 }

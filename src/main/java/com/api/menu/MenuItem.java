@@ -1,6 +1,7 @@
 package com.api.menu;
 
-import com.api.order.Order;
+import com.api.order.item.OrderItem;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,7 @@ public class MenuItem implements Serializable {
     private static final long serialVersionUID = 6734246237864L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "MENU_ITEM_ID")
     private Integer menuItemId;
 
@@ -35,7 +36,8 @@ public class MenuItem implements Serializable {
     @Column(name = "PRICE")
     private BigDecimal price;
 
-    @ManyToMany(mappedBy = "menuItems")
-    private List<Order> orders = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menuItem", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
 }
