@@ -15,20 +15,20 @@ public class OrderController {
     }
 
     @PostMapping("/order-service/v1/orders")
-    public ResponseEntity<Order> createOrderFromOrderTicket(@RequestBody OrderTicket orderTicket) {
-        Order order = orderService.createOrderFromOrderTicket(orderTicket);
+    public ResponseEntity<OrderDTO> createOrderFromOrderTicket(@RequestBody OrderTicket orderTicket) {
+        OrderDTO order = orderService.createOrderFromOrderTicket(orderTicket);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
     }
 
     @PutMapping("/order-service/v1/orders/complete/{order-id}")
-    public ResponseEntity<Order> completeOrderByOrderId(@PathVariable("order-id") Integer orderId) {
-        Order order = orderService.completeOrderByOrderId(orderId);
+    public ResponseEntity<OrderDTO> completeOrderByOrderId(@PathVariable("order-id") Integer orderId) {
+        OrderDTO order = orderService.completeOrderByOrderId(orderId);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
     @PutMapping("/order-service/v1/orders/cancel/{order-id}")
-    public ResponseEntity<Order> cancelOrderByOrderId(@PathVariable("order-id") Integer orderId) {
-        Order order = orderService.cancelOrderByOrderId(orderId);
+    public ResponseEntity<OrderDTO> cancelOrderByOrderId(@PathVariable("order-id") Integer orderId) {
+        OrderDTO order = orderService.cancelOrderByOrderId(orderId);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
 

@@ -12,36 +12,36 @@ import java.time.LocalDateTime;
 @Service
 public class OrderService {
 
+    private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
     private final OrderStatusService orderStatusService;
     private final OrderTicketMapper orderTicketMapper;
 
-    public OrderService(OrderRepository orderRepository,
-                        OrderStatusService orderStatusService,
-                        OrderTicketMapper orderTicketMapper) {
+    public OrderService(OrderMapper orderMapper, OrderRepository orderRepository, OrderStatusService orderStatusService, OrderTicketMapper orderTicketMapper) {
+        this.orderMapper = orderMapper;
         this.orderRepository = orderRepository;
         this.orderStatusService = orderStatusService;
         this.orderTicketMapper = orderTicketMapper;
     }
 
-    Order createOrderFromOrderTicket(OrderTicket orderTicket) {
+    OrderDTO createOrderFromOrderTicket(OrderTicket orderTicket) {
         Order order = orderTicketMapper.createOrderForOrderTicket(orderTicket);
         order.setOrderTime(LocalDateTime.now());
         order.setOrderStatus(findOrderStatusByName(Status.PLACED.getName()));
         orderRepository.save(order);
-        return order;
+        return orderMapper.getOrderDTOForOrder(order);
     }
 
-    Order completeOrderByOrderId(Integer orderId) {
+    OrderDTO completeOrderByOrderId(Integer orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order does not exist."));
         order.setOrderStatus(findOrderStatusByName(Status.COMPLETED.getName()));
-        return orderRepository.save(order);
+        return orderMapper.getOrderDTOForOrder(order);
     }
 
-    Order cancelOrderByOrderId(Integer orderId) {
+    OrderDTO cancelOrderByOrderId(Integer orderId) {
         Order order = orderRepository.findById(orderId).orElseThrow(() -> new RuntimeException("Order does not exist."));
         order.setOrderStatus(findOrderStatusByName(Status.CANCELED.getName()));
-        return orderRepository.save(order);
+        return orderMapper.getOrderDTOForOrder(order);
     }
 
     private OrderStatus findOrderStatusByName(String name) {
