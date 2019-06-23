@@ -24,6 +24,7 @@ public class Order implements Serializable {
 
     private static final long serialVersionUID = 89342473892L;
 
+    // TODO: ID is not generating properly (create two orders with multiple items and note the second order's order ID)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "ORDER_ID")
