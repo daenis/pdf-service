@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class OrderController {
 
@@ -18,6 +20,12 @@ public class OrderController {
     public ResponseEntity<OrderDTO> createOrderFromOrderTicket(@RequestBody OrderTicket orderTicket) {
         OrderDTO order = orderService.createOrderFromOrderTicket(orderTicket);
         return new ResponseEntity<>(order, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/order-service/v1/orders/placed")
+    public ResponseEntity<List<OrderDTO>> findPlacedOrders() {
+        List<OrderDTO> orders = orderService.findPlacedOrders();
+        return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
     @PutMapping("/order-service/v1/orders/complete/{order-id}")

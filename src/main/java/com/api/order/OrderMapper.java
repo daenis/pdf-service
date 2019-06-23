@@ -10,6 +10,7 @@ public class OrderMapper {
 
     OrderDTO getOrderDTOForOrder(Order order) {
         OrderDTO orderDTO = new OrderDTO();
+        orderDTO.setOrderId(order.getOrderId());
         orderDTO.setItems(order.getOrderItems()
                                .stream()
                                .map(item -> item.getMenuItem().getName())

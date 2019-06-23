@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 public class OrderDTO implements Serializable {
 
+    private Integer orderId;
     private List<String> items = new ArrayList<>();
     private String status;
     private BigDecimal price;

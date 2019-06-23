@@ -8,6 +8,8 @@ import com.api.order.ticket.OrderTicketMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -30,6 +32,10 @@ public class OrderService {
         order.setOrderStatus(findOrderStatusByName(Status.PLACED.getName()));
         orderRepository.save(order);
         return orderMapper.getOrderDTOForOrder(order);
+    }
+
+    List<OrderDTO> findPlacedOrders() {
+        return orderRepository.findByOrderStatus_name(Status.PLACED.getName()).stream().map(orderMapper::getOrderDTOForOrder).collect(Collectors.toList());
     }
 
     OrderDTO completeOrderByOrderId(Integer orderId) {
