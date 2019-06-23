@@ -11,6 +11,7 @@ public class MenuItemService {
         this.menuItemRepository = menuItemRepository;
     }
 
+    // TODO: Put in exception handling
     public MenuItem findByName(String name) {
         return menuItemRepository.findByName(name);
     }
