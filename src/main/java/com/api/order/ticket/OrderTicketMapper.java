@@ -17,14 +17,15 @@ public class OrderTicketMapper {
 
     public Order createOrderForOrderTicket(OrderTicket orderTicket) {
         Order order = new Order();
-        orderTicket.getItems()
-                   .forEach(item -> {
-                       MenuItem menuItem = menuItemService.findByName(item);
-                       OrderItem orderItem = new OrderItem();
-                       orderItem.setMenuItem(menuItem);
-                       order.addOrderItem(orderItem);
-                   });
+        orderTicket.getItems().forEach(item -> order.addOrderItem(createOrderItemByItemName(item)));
         return order;
+    }
+
+    private OrderItem createOrderItemByItemName(String itemName) {
+        MenuItem menuItem = menuItemService.findByName(itemName);
+        OrderItem orderItem = new OrderItem();
+        orderItem.setMenuItem(menuItem);
+        return orderItem;
     }
 
 }
